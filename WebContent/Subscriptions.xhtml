@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<title>Prototype</title>
+</h:head>
+<h:body>
+	<div id="container">
+		<div id="header">
+			<ui:include src="Top.xhtml" />
+		</div>
+		<div id="content">
+			<h:outputStylesheet library="css" name="Style.css" />
+			<h:panelGroup>
+				<h:form>
+					<h5>Feed Subscriptions</h5>
+					<h:dataTable var="s" value="#{uiConnector.feeds}">
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="name" />
+							</f:facet>
+							<h:outputText value="#{s.name}" />
+						</h:column>
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="category" />
+							</f:facet>
+							<h:outputText value="#{s.category}" />
+						</h:column>
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="link" />
+							</f:facet>
+							<h:outputLink value="#{s.link}">
+								<h:outputText value="#{s.link}" />
+							</h:outputLink>
+						</h:column>
+						<h:column>
+							<h:commandLink styleClass="linkButton" value="Edit"
+								action="#{uiConnector.edit(s)}" />
+							<h:commandLink styleClass="linkButton" value="Delete"
+								action="#{uiConnector.cancelSubscription(s)}" />
+						</h:column>
+					</h:dataTable>
+				</h:form>
+			</h:panelGroup>
+			<h:panelGrid columns="2">
+				<h:panelGroup>
+					<h:form>
+						<h5>Add new Feed Subscription</h5>
+						<h:panelGrid columns="2">
+							<h:outputLabel value="Name" for="name" />
+							<h:inputText value="#{uiConnector.feedName}" />
+							<h:outputLabel value="Category" for="category" />
+							<h:inputText value="#{uiConnector.feedCategory}" />
+							<h:outputLabel value="Link" for="link" />
+							<h:inputText value="#{uiConnector.feedLink}" />
+						</h:panelGrid>
+						<h:commandLink styleClass="linkButton" value="Add Subscription"
+							action="#{uiConnector.addSubscription}" />
+					</h:form>
+				</h:panelGroup>
+				
+				<h:panelGroup rendered="#{uiConnector.feed != null}">
+					<h:form>
+						<h5>Edit Feed Subscription</h5>
+						<h:panelGrid columns="2">
+							<h:outputLabel value="Name " for="name" />
+							<h:inputText var="inputName" value="#{uiConnector.feed.name}" />
+							<h:outputLabel value="Category " for="category" />
+							<h:inputText var="inputCat" value="#{uiConnector.feed.category}" />
+							<h:outputLabel value="Link " for="link" />
+							<h:inputText var="inputLink" value="#{uiConnector.feed.link}" />
+						</h:panelGrid>
+						<h:commandLink styleClass="linkButton" value="refresh"
+							action="#{uiConnector.refreshSubscription()}" />
+					</h:form>
+				</h:panelGroup>
+				
+			</h:panelGrid>
+			<h:messages />
+		</div>
+	</div>
+</h:body>
+</html>
