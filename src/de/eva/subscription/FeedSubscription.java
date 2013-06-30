@@ -4,18 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.eva.feed.Feed;
-import de.eva.subscription.SubscriptionAlreadyExistsException;
-import de.eva.subscription.SubscriptionNotExistsException;
 
 public class FeedSubscription {
+	
 	private List<Feed> feeds;
 
 	public FeedSubscription() {
-		this.feeds = new ArrayList<Feed>();
-	}
-
-	public FeedSubscription(List<Feed> feeds) {
-		this.feeds = feeds;
+		feeds = new ArrayList<Feed>();
 	}
 
 	public void newSubscription(Feed feed) throws SubscriptionAlreadyExistsException {
@@ -45,4 +40,9 @@ public class FeedSubscription {
 	public List<Feed> getFeeds() {
 		return this.feeds;
 	}
+
+	public void setFeeds(List<Feed> feeds) {
+		this.feeds = feeds;
+	}
+	
 }

@@ -1,20 +1,30 @@
 package de.eva.ui;
 
+import java.util.Collections;
+import java.util.List;
+
+import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.*;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
-import de.eva.feed.*;
-import de.eva.subscription.*;
-
-import java.util.*;
+import de.eva.feed.Feed;
+import de.eva.subscription.FeedSubscription;
+import de.eva.subscription.StorageService;
+import de.eva.subscription.SubscriptionAlreadyExistsException;
+import de.eva.subscription.SubscriptionNotExistsException;
 
 @ManagedBean(name="uiConnector")
 @ViewScoped
 public class UIConnector {
+	
 	@Inject
 	private FeedSubscription subscription;
+	
+	@EJB
+	private StorageService storageService;
 	
 	private Feed feed;
 	private String feedName;
@@ -22,12 +32,13 @@ public class UIConnector {
 	private String feedCategory;
 	
 	
-	public UIConnector() {
-		subscription = new FeedSubscription(Sample.getSampleData());
+	public UIConnector() throws Exception {
+		subscription = new FeedSubscription();
 	}
 
 	public List<Feed> getFeeds() {
-		return this.subscription.getFeeds();
+		subscription.setFeeds(storageService.getFeeds());
+		return subscription.getFeeds();
 	}
 
 	public Feed getFeed() {
@@ -40,7 +51,9 @@ public class UIConnector {
 
 	public void addSubscription() {
 		try {
-			this.subscription.newSubscription(new Feed(this.feedName, this.feedCategory, this.feedLink));
+			Feed feed = new Feed(this.	feedName, this.feedCategory, this.feedLink);
+			this.subscription.newSubscription(feed);
+			storageService.saveFeed(feed);
 		} catch (SubscriptionAlreadyExistsException e) {
 			FacesContext.getCurrentInstance().addMessage("", new FacesMessage("Feed is already subscribed"));
 		}
@@ -53,13 +66,15 @@ public class UIConnector {
 	public void cancelSubscription(Feed feed) {
 		try {
 			subscription.cancelSubscription(feed);
+			storageService.deleteFeed(feed);
 		} catch (SubscriptionNotExistsException e) {
 			FacesContext.getCurrentInstance().addMessage("", new FacesMessage("Feed is not subscribed."));
 		}
 	}
-	public void refreshSubscription(){
+	public void refreshSubscription() {
 		try {
 			this.subscription.refreshSubscription(this.feed);
+			storageService.saveFeed(feed);
 		} catch (SubscriptionNotExistsException e) {
 			FacesContext.getCurrentInstance().addMessage("", new FacesMessage("Feed is not subscribed."));
 		}
@@ -84,9 +99,11 @@ public class UIConnector {
 	public void setFeedLink(String feedLink) {
 		this.feedLink = feedLink;
 	}
+	
 	public String getFeedCategory(){
 		return feedCategory;
 	}
+	
 	public void setFeedCategory(String feedCategory){
 		this.feedCategory = feedCategory;
 	}

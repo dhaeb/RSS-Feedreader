@@ -12,7 +12,6 @@ public class Sample {
 		feeds.add(new Feed("iX News", "IT News", "http://www.heise.de/ix/news/news-atom.xml"));
 		feeds.add(new Feed("Airbus News", "Aviation", "http://www.airbus.com/newsevents/rss/all_news.xml"));
 		Collections.sort(feeds);
-		
 	}
 
 	public static List<Feed> getSampleData() {
