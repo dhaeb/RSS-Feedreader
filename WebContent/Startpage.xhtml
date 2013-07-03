@@ -1,40 +1,41 @@
-<!DOCTYPE html>
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets" template="Template.xhtml">
 	<ui:define name="content">
-		<h4>Feed Subscriptions</h4>
 		<h:form>
-			<h:dataTable var="f" value="#{uiConnector.feeds}">
+			<h:dataTable var="f" value="#{uiConnector.feedEntries}">
 				<h:column>
 					<f:facet name="header">
-						<h:outputText value="name" />
+						<h:outputText value="Date" />
 					</f:facet>
-					<h:outputText value="#{f.name}" />
+					<h:outputText value="#{f.publishedDate}" />
 				</h:column>
 				<h:column>
 					<f:facet name="header">
-						<h:outputText value="category" />
+						<h:outputText value="Title" />
 					</f:facet>
-					<h:outputText value="#{f.category}" />
+					<h:outputText value="#{f.title}" />
 				</h:column>
 				<h:column>
 					<f:facet name="header">
-						<h:outputText value="link" />
+						<h:outputText value="Link" />
 					</f:facet>
 					<!-- <h:outputText value="#{subscription.link}"/> -->
 					<h:outputLink value="#{f.link}">
 						<h:outputText value="#{f.link}" />
 					</h:outputLink>
-
+				
 				</h:column>
+				
 				<h:column>
-					<h:commandLink styleClass="linkButton" value="Edit" action="#{uiConnector.edit(f)}" />
-					<h:commandLink styleClass="linkButton" value="Delete" action="#{uiConnector.cancelSubscription(f)}" />
+					<f:facet name="header">
+						<h:outputText value="Content" />
+					</f:facet>
+					<h:outputText value="#{f.content}" />
 				</h:column>
 			</h:dataTable>
-			<h:commandLink styleClass="linkButton" value="Add Subscription" action="/AddSubscription.xhtml" />
+			<h:commandLink styleClass="linkButton" value="Subscribe to a Feed" action="/AddSubscription.xhtml" />
 		</h:form>
 	</ui:define>
 </ui:composition>

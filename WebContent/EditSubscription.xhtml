@@ -1,0 +1,20 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets" template="Template.xhtml">
+	<ui:define name="content">
+		<h:form>
+			<h4>Edit Feed Subscription</h4>
+			<h:panelGrid columns="2">
+				<h:outputLabel value="Name " for="name" />
+				<h:inputText value="#{uiConnector.feed.name}" />
+				<h:outputLabel value="Category " for="category" />
+				<h:inputText value="#{uiConnector.feed.category}" />
+				<h:outputLabel value="Link " for="link" />
+				<h:inputText value="#{uiConnector.feed.link}" />
+			</h:panelGrid>
+			<h:commandLink styleClass="linkButton" value="Refresh" action="#{uiConnector.refreshSubscription()}" />
+			<h:commandLink styleClass="linkButton" value="Cancel" immediate="true" action="/Subscriptions.xhtml"/>
+		</h:form>
+	</ui:define>
+</ui:composition>

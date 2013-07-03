@@ -25,19 +25,18 @@ public class StorageService {
 		return resultList;
 	}
 	
-	public void saveFeed(Feed saveable) {
-		System.out.println("save feed " + saveable);
-		em.merge(saveable);
+	public void saveFeed(Feed feed) {
+		System.out.println("save feed " + feed);
+		em.merge(feed);
 	}
 	
-	public void saveFeedEntry(FeedEntry saveable){
-		System.out.println("save feedentry " + saveable);
-		em.merge(saveable);
+	public void saveFeedEntry(FeedEntry feed){
+		System.out.println("save feedentry " + feed);
+		em.merge(feed);
 	}
 	
-	public void deleteFeed(Feed saveable){
-		System.out.println("try to remove " + saveable);
-		em.remove(em.merge(saveable));
+	public void deleteFeed(Feed feed){
+		System.out.println("try to remove " + feed);
+		em.remove(em.merge(feed));
 	}
-
 }

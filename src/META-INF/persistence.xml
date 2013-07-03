@@ -7,13 +7,13 @@
     <persistence-unit name="feed-persistence-unit" transaction-type="JTA">
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
          <jta-data-source>jdbc/__default</jta-data-source>
-        <exclude-unlisted-classes>false</exclude-unlisted-classes>
+         <exclude-unlisted-classes>false</exclude-unlisted-classes> <!-- damit nicht die Entity Klassen hier aufgelistet werden müssen -->
         <properties>
          <property name="eclipselink.target-database" value="DERBY"/>
          <!--  Zum automatischen Erstellen der Tabellen -->
          <!-- nach Verwendung wieder auskommentieren um -->
          <!-- eventuelle Probleme zu vermeiden -->
-         	<property name="eclipselink.ddl-generation" value="create-tables"/> 
+             <property name="eclipselink.ddl-generation" value="create-tables"/>
         </properties>
     </persistence-unit>
 </persistence>
