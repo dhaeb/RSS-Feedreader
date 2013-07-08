@@ -76,6 +76,7 @@ public class UIConnector {
 			FacesContext.getCurrentInstance().addMessage("", new FacesMessage("Feed is not subscribed."));
 		}
 	}
+	
 	public String refreshSubscription(){
 		// ToDo: Navigation
 		try {
@@ -107,9 +108,11 @@ public class UIConnector {
 	public void setFeedLink(String feedLink) {
 		this.feedLink = feedLink;
 	}
+	
 	public String getFeedCategory(){
 		return feedCategory;
 	}
+	
 	public void setFeedCategory(String feedCategory){
 		this.feedCategory = feedCategory;
 	}

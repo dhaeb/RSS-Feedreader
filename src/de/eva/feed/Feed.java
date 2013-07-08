@@ -4,24 +4,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
 @Entity
 public class Feed implements Comparable<Feed> {
-	
+
 	private String name;
 	private String category;
 	@Id
 	private String link;
-	@OneToMany(fetch=FetchType.LAZY)
+	@OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.PERSIST)
+	@JoinColumn(name="link_to_feed")
 	private List<FeedEntry> entries;
 
 	@Inject
-	public Feed() {}
-	
+	public Feed() {
+	}
+
 	public Feed(String name, String category, String link) {
 		this.name = name;
 		this.category = category;
@@ -69,8 +73,6 @@ public class Feed implements Comparable<Feed> {
 		return -1;
 	}
 
-	
-	
 	@Override
 	public String toString() {
 		return "Feed [name=" + name + ", category=" + category + ", link=" + link + ", entries="
@@ -79,8 +81,8 @@ public class Feed implements Comparable<Feed> {
 
 	@Override
 	public boolean equals(Object obj) {
-		if(obj != null && obj instanceof Feed) {
-			return ((Feed)obj).getLink().equals(this.link);
+		if (obj != null && obj instanceof Feed) {
+			return ((Feed) obj).getLink().equals(this.link);
 		}
 		return false;
 	}

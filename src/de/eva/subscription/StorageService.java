@@ -25,18 +25,35 @@ public class StorageService {
 		return resultList;
 	}
 	
-	public void saveFeed(Feed feed) {
-		System.out.println("save feed " + feed);
-		em.merge(feed);
+	public void insertFeedEntriesIntoFeed(List<FeedEntry> entries, Feed target){
 	}
 	
-	public void saveFeedEntry(FeedEntry feed){
-		System.out.println("save feedentry " + feed);
-		em.merge(feed);
+	public void refreshFeed(Feed feed) {
+		System.out.println("save feed " + feed);
+		em.refresh(em.merge(feed));
+	}
+	
+	public void saveFeed(Feed feed) {
+		System.out.println("save feed " + feed);
+		em.persist(em.merge(feed));
 	}
 	
 	public void deleteFeed(Feed feed){
 		System.out.println("try to remove " + feed);
 		em.remove(em.merge(feed));
+	}
+
+	public void putFeedEntries(List<FeedEntry> newEntries, String linkFromFeed) {
+		for(FeedEntry currentEntry : newEntries){
+			Query createQuery = em.createQuery("Select e from FeedEntry e where e.feed.link = :arg ");
+			createQuery.setParameter("arg", linkFromFeed);
+			@SuppressWarnings("unchecked")
+			List<FeedEntry> resultList = createQuery.getResultList();
+			if(!resultList.contains(currentEntry)){
+				em.refresh(em.merge(currentEntry));
+			} else {
+				System.out.println("NOT PERSISTED! " + currentEntry);
+			}
+		}
 	}
 }
